@@ -5,7 +5,8 @@ import serial
 PORT = "COM7"    
 BAUD = 115200
 N_TOURS = 3
-OUT = "data/scan_01.csv"
+import sys
+OUT = sys.argv[1] if len(sys.argv) > 1 else "data/scan_01.csv"
 
 
 def parse(line):
