@@ -11,7 +11,7 @@ from gridmap import scan_local, local_vers_global
 
 # ---- Paramètres (à justifier dans ton rendu) ----
 MARGE_RAYON = 0.10         # m : le rayon s'arrête 10 cm avant l'impact (sinon il couperait son propre mur)
-MIN_LONGUEUR_CARTE = 0.30  # m : features plus courtes supprimées au nettoyage
+MIN_LONGUEUR_CARTE = 0.20  # m : features plus courtes supprimées au nettoyage
 SORTIE = "data/carte_vectorielle.txt"
 
 
