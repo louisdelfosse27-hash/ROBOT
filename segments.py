@@ -73,8 +73,8 @@ def couper(a: Segment, b: Segment) -> Segment:
 
 # ---- Seuils de proximité (en m et en degrés, à ajuster avec tes vrais scans) ----
 SEUIL_ANGLE_DEG = 10.0   # écart d'orientation maximal
-SEUIL_DIST = 0.05        # distance perpendiculaire maximale entre les deux segments
-SEUIL_GAP = 0.10         # trou maximal le long du segment entre les deux
+SEUIL_DIST = 0.08        # distance perpendiculaire maximale entre les deux segments
+SEUIL_GAP = 0.30         # trou maximal le long du segment entre les deux
 
 
 def _dir_unitaire(s: Segment):
