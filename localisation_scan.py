@@ -3,11 +3,9 @@ import numpy as np
 import pandas as pd
 
 from gridmap import nouvelle_grille, scan_local, mettre_a_jour
-from localisation_grid import (localiser_brute_force, ecart_angle, DECALAGES,
-                               SEUIL_POS, SEUIL_ANG)
+from localisation_grid import (METHODES, ecart_angle, DECALAGES, SEUIL_POS, SEUIL_ANG)
 
 # (scan de référence, scan à localiser) : deux positions PROCHES, avec murs en commun.
-# À adapter selon ta salle.
 PAIRES = [("pos_G.csv", "pos_B.csv"),
           ("pos_D.csv", "pos_F.csv"),
           ("pos_A.csv", "pos_G.csv"),
@@ -38,19 +36,25 @@ if __name__ == "__main__":
 
         for dx, dy, dth in DECALAGES:
             init = (pose_test[0] + dx, pose_test[1] + dy, pose_test[2] + dth)
-            t0 = time.perf_counter()
-            pose, score = localiser_brute_force(grille, pts, init)
-            dt = time.perf_counter() - t0
-            e_pos = float(np.hypot(pose[0] - pose_test[0], pose[1] - pose_test[1]))
-            e_ang = float(abs(ecart_angle(pose[2], pose_test[2])))
-            lignes.append(dict(ref=ref_nom, test=test_nom, dx=dx, dy=dy, dth=dth,
-                               err_pos_m=round(e_pos, 3), err_ang_deg=round(e_ang, 2),
-                               temps_s=round(dt, 2),
-                               succes=e_pos < SEUIL_POS and e_ang < SEUIL_ANG))
-            print(lignes[-1])
+            for nom_methode, methode in METHODES.items():
+                t0 = time.perf_counter()
+                pose, score = methode(grille, pts, init)
+                dt = time.perf_counter() - t0
+                e_pos = float(np.hypot(pose[0] - pose_test[0], pose[1] - pose_test[1]))
+                e_ang = float(abs(ecart_angle(pose[2], pose_test[2])))
+                lignes.append(dict(methode=nom_methode, ref=ref_nom, test=test_nom,
+                                   dx=dx, dy=dy, dth=dth,
+                                   err_pos_m=round(e_pos, 3), err_ang_deg=round(e_ang, 2),
+                                   temps_s=round(dt, 2),
+                                   succes=e_pos < SEUIL_POS and e_ang < SEUIL_ANG))
+                print(lignes[-1])
 
     res = pd.DataFrame(lignes)
-    print("\nTaux de réussite par décalage initial :")
-    print(res.groupby(["dx", "dy", "dth"]).succes.mean().mul(100).round(0))
-    print(f"\nTaux de réussite global : {res.succes.mean() * 100:.0f} %")
+    print("\nTaux de réussite (%) par décalage initial :")
+    print(res.pivot_table(index=["dx", "dy", "dth"], columns="methode",
+                          values="succes", aggfunc="mean").mul(100).round(0))
+    print("\nMoyennes par méthode :")
+    print(res.groupby("methode")[["err_pos_m", "err_ang_deg", "temps_s"]].mean().round(3))
+    print("\nTaux de réussite global (%) :")
+    print(res.groupby("methode").succes.mean().mul(100).round(0))
     res.to_csv("data/resultats_scan_scan.csv", index=False)

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # ---- Paramètres (à justifier dans ton rendu) ----
 TAILLE_M = 24.0     # carte de 24 m x 24 m, robot au centre au départ
-RES_M = 0.05         # 5 cm par cellule -> 240 x 240
+RES_M = 0.02         # 2 cm par cellule 
 INCONNU = 127
 DELTA_LIBRE = 10     # décrément des cellules traversées
 DELTA_OCC = 40       # incrément de la cellule d'impact
