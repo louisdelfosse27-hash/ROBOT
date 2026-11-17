@@ -1,0 +1,11 @@
+glissement_pct,methode,trajectoires_ok_pct,err_pos_moy_cm
+3,grid,92,3.0
+3,grid_sans_prior,67,23.3
+5,grid,100,2.7
+5,grid_sans_prior,83,3.0
+10,grid,100,3.0
+10,grid_sans_prior,75,30.2
+15,grid,83,6.0
+15,grid_sans_prior,67,41.9
+20,grid,58,13.2
+20,grid_sans_prior,33,22.3

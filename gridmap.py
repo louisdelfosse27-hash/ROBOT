@@ -9,7 +9,7 @@ RES_M = 0.02         # 2 cm par cellule
 INCONNU = 127
 DELTA_LIBRE = 10     # décrément des cellules traversées
 DELTA_OCC = 40       # incrément de la cellule d'impact
-D_MIN, D_MAX = 100, 8000   # mm : on jette les points hors plage
+D_MIN, D_MAX = 100, 12000   # mm : le LD06 porte jusqu'à environ 12 m
 I_MIN = 50           # intensité minimale (à ajuster)
 
 
